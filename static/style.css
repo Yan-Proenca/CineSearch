@@ -76,6 +76,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 20px;
+  margin-bottom: 20px;
 }
 
 /* ===== CARD ===== */
@@ -126,7 +127,11 @@ body {
 .movie-details {
   display: flex;
   gap: 32px;
-  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.details {
+  flex: 1;
 }
 
 .movie-details img {
@@ -177,4 +182,5 @@ body {
   .movie-details img {
     max-width: 260px;
   }
+
 }
