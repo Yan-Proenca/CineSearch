@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>🎬 Cine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="header">
+    <h1>🎬 CineSearch</h1>
+
+    <form method="get" class="search-form">
+        <input
+            type="text"
+            name="q"
+            placeholder="Buscar filme..."
+            value="{{ query or '' }}"
+        >
+        <button type="submit">Buscar</button>
+    </form>
+</header>
+
+<main
+    class="container"
+    id="app"
+    data-page="{{ page }}"
+    data-query="{{ query or '' }}"
+>
+
+{% if filme %}
+
+{% if query %}
+<div class="back-home">
+    <a href="/" class="back-button">⬅️ Voltar ao início</a>
+</div>
+{% endif %}
+
+<section class="movie-details">
+    <img
+        src="https://image.tmdb.org/t/p/w500{{ filme.poster_path }}"
+        alt="Poster de {{ filme.title }}"
+    >
+
+    <div class="details">
+        <h2>{{ filme.title }}</h2>
+
+        <p class="rating">⭐ {{ filme.vote_average }}</p>
+        <p class="release">Lançamento: {{ filme.release_date }}</p>
+
+        <p class="overview">
+            <strong>Sinopse</strong><br>
+            {{ filme.overview }}
+        </p>
+    </div>
+</section>
+
+{% else %}
+
+<section class="movies-grid" id="moviesGrid">
+    {% for filme in filmes %}
+    <article class="movie-card">
+        <img
+            src="https://image.tmdb.org/t/p/w300{{ filme.poster_path }}"
+            alt="Poster de {{ filme.title }}"
+        >
+
+        <div class="card-body">
+            <h3>{{ filme.title }}</h3>
+            <span class="rating">⭐ {{ filme.vote_average }}</span>
+
+            <a href="/?movie_id={{ filme.id }}" class="details-link">
+                Ver detalhes
+            </a>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+
+{% endif %}
+
+{% if similares %}
+<section class="movies-grid">
+    <h3>🎞️ Filmes Similares</h3>
+
+    {% for s in similares %}
+    <article class="movie-card">
+        <img
+            src="https://image.tmdb.org/t/p/w300{{ s.poster_path }}"
+            alt="Poster de {{ s.title }}"
+        >
+
+        <div class="card-body">
+            <h4>{{ s.title }}</h4>
+            <span class="rating">⭐ {{ s.vote_average }}</span>
+
+            <a href="/?movie_id={{ s.id }}" class="details-link">
+                Ver detalhes
+            </a>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+{% else %}
+<p>❌ Nenhum filme similar encontrado.</p>
+{% endif %}
+
+</main>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
